@@ -129,6 +129,7 @@ resource "google_compute_instance" "tightlock-backend" {
 
   metadata = {
     user-data = templatefile("cloud-config.yaml", { API_KEY = "${var.api_key}", STORAGE_DEVICE_NAME = "${local.storage_device_name}", USAGE_COLLECTION = "${var.allow_usage_data_collection}" })
+    google-logging-enabled = var.enable_cloud_logging ? "true" : "false"
   }
 
   service_account {
