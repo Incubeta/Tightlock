@@ -1,0 +1,27 @@
+# Set the variables with the provided values for Adriaan's VM
+VM_NAME="tightlock-backend-p15z"
+ZONE="us-central1-a"
+PROJECT="glo-tech-dev-adriaan"
+
+# First, let's SSH into the VM to check the correct paths and permissions
+gcloud compute ssh ${VM_NAME} --zone=${ZONE} --project=${PROJECT} -- "whoami && echo 'Current user' && sudo -l && echo 'Sudo permissions' && find / -name 'Tightlock' -type d 2>/dev/null && echo 'Tightlock directories' && which docker-compose || echo 'docker-compose not found'"
+
+# Upload the docker-compose.yaml file (with sudo)
+gcloud compute scp docker-compose.yaml ${VM_NAME}:~/ --zone=${ZONE} --project=${PROJECT}
+gcloud compute ssh ${VM_NAME} --zone=${ZONE} --project=${PROJECT} -- "sudo cp ~/docker-compose.yaml /mnt/disks/tightlock/Tightlock/"
+
+# Create the fluentd-config directory on the VM (with sudo)
+gcloud compute ssh ${VM_NAME} --zone=${ZONE} --project=${PROJECT} -- "sudo mkdir -p /mnt/disks/tightlock/Tightlock/fluentd-config"
+
+# Upload the fluentd configuration files (with sudo)
+gcloud compute scp fluentd-config/docker-containers.conf ${VM_NAME}:~/ --zone=${ZONE} --project=${PROJECT}
+gcloud compute ssh ${VM_NAME} --zone=${ZONE} --project=${PROJECT} -- "sudo cp ~/docker-containers.conf /mnt/disks/tightlock/Tightlock/fluentd-config/"
+
+gcloud compute scp fluentd-config/google-fluentd.conf ${VM_NAME}:~/ --zone=${ZONE} --project=${PROJECT}
+gcloud compute ssh ${VM_NAME} --zone=${ZONE} --project=${PROJECT} -- "sudo cp ~/google-fluentd.conf /mnt/disks/tightlock/Tightlock/fluentd-config/"
+
+# Restart the Docker containers on the VM (with sudo)
+gcloud compute ssh ${VM_NAME} --zone=${ZONE} --project=${PROJECT} -- "cd /mnt/disks/tightlock/Tightlock && sudo bash ./run_tightlock.sh -e prod -i non-interactive"
+
+# Verify the changes
+gcloud compute ssh ${VM_NAME} --zone=${ZONE} --project=${PROJECT} -- "sudo docker ps | grep stackdriver-logging && ls -la /mnt/disks/tightlock/Tightlock/fluentd-config/"
