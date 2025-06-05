@@ -35,3 +35,9 @@ variable "allow_usage_data_collection" {
   type        = string
   description = "User-provided usage data collection consent."
 }
+
+variable "enable_cloud_logging" {
+  type        = bool
+  description = "If set to true, enables Cloud Logging for the Container-Optimized OS instance."
+  default     = true
+}
