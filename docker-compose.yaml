@@ -300,16 +300,5 @@ services:
       airflow-init:
         condition: service_completed_successfully
 
-  # Stackdriver logging agent to collect Docker container logs
-  stackdriver-logging:
-    image: gcr.io/stackdriver-agents/stackdriver-logging-agent:1.9.9
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /var/lib/docker/containers:/var/lib/docker/containers:ro
-      - ./fluentd-config:/etc/google-fluentd/config.d:ro
-    restart: always
-    user: root
-    command: /usr/sbin/google-fluentd -c /etc/google-fluentd/google-fluentd.conf
-
 volumes:
   postgres-db-volume:
