@@ -141,7 +141,6 @@ class AirflowClient:
       run_result_json = run_result_response.json()
       run_result = ast.literal_eval(run_result_json.get("value") or '{}')
       print('This Is for Testing')
-      print(**run_result)
       run_log = self._build_run_log_response(
           connection_by_dag_id[dag_id], run, RunResult(**run_result)
       )
