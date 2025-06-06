@@ -114,12 +114,6 @@ services:
       TIGHTLOCK_API_KEY: ${TIGHTLOCK_API_KEY}
       LATEST_TAG: ${LATEST_TAG}
       RATE_LIMITER_STORAGE_URL: redis://:@redis:6379/1
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "3"
-        tag: "tightlock-api"
     depends_on:
       postgres:
         condition: service_healthy
@@ -137,12 +131,6 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "3"
-        tag: "airflow-webserver"
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
@@ -157,12 +145,6 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "3"
-        tag: "airflow-scheduler"
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
@@ -184,12 +166,6 @@ services:
       # Required to handle warm shutdown of the celery workers properly
       # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
       DUMB_INIT_SETSID: "0"
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "3"
-        tag: "airflow-worker"
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
@@ -206,12 +182,6 @@ services:
       interval: 10s
       timeout: 10s
       retries: 5
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "100m"
-        max-file: "3"
-        tag: "airflow-triggerer"
     restart: always
     depends_on:
       <<: *airflow-common-depends-on
