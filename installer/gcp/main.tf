@@ -111,7 +111,7 @@ resource "google_compute_instance" "tightlock-backend" {
 
   boot_disk {
     initialize_params {
-      image = "cos-cloud/cos-105-17412-370-67"
+      image = "cos-cloud/cos-125-19216-220-9"
     }
   }
 
