@@ -41,7 +41,7 @@ jobs:
       - name: Archive logs
         # TODO(caiotomazelli): Disabling tests in order to implement hotfix.
         continue-on-error: true
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: airflow-logs
           path: logs

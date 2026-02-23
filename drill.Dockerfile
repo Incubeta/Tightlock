@@ -13,6 +13,6 @@
 # limitations under the License.
 
 # syntax=docker/dockerfile:1
-FROM apache/drill:latest
+FROM apache/drill:1.21.2
 USER root
 RUN wget -P /opt/drill/jars/ https://repo1.maven.org/maven2/com/google/cloud/bigdataoss/gcs-connector/hadoop2-2.2.9/gcs-connector-hadoop2-2.2.9-shaded.jar 
