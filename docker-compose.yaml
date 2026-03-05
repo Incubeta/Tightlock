@@ -68,7 +68,7 @@ services:
       POSTGRES_USERS: airflow:airflow|tightlock:tightlock
       POSTGRES_DATABASES: airflow:airflow|tightlock:tightlock,airflow
     volumes:
-      - postgres-db-volume:/var/lib/postgresql/data
+      - /mnt/disks/tightlock/postgres-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "postgres"]
       interval: 5s
@@ -299,6 +299,3 @@ services:
       <<: *airflow-common-depends-on
       airflow-init:
         condition: service_completed_successfully
-
-volumes:
-  postgres-db-volume:
