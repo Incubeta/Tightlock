@@ -154,7 +154,7 @@ class Destination(TadauMixin):
     """
 
     # Construct a service object via the discovery service.
-    service = discovery.build("dfareporting", "v4", http=self.http)
+    service = discovery.build("dfareporting", "v5", http=self.http)
 
     try:
       request = service.conversions().batchinsert(
