@@ -154,7 +154,10 @@ class Destination(TadauMixin):
     """
 
     # Construct a service object via the discovery service.
-    service = discovery.build("dfareporting", "v5", http=self.http)
+    service = discovery.build(
+        "dfareporting", "v5", http=self.http,
+        discoveryServiceUrl="https://dfareporting.googleapis.com/$discovery/rest?version=v5"
+    )
 
     try:
       request = service.conversions().batchinsert(
